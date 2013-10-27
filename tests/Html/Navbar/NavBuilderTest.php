@@ -1,20 +1,25 @@
 <?php namespace Djordje\LaravelTwbsHelpers\tests\Html\Navbar;
 
 use Djordje\LaravelTwbsHelpers\Html\Navbar\NavBuilder;
-use Illuminate\Support\Facades\Request;
 use Mockery;
 
 class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 
-	public function tearDown()
+	protected $request;
+
+	protected function setUp()
+	{
+		$this->request = Mockery::mock('\Illuminate\Http\Request');
+	}
+
+	protected function tearDown()
 	{
 		Mockery::close();
 	}
 
 	public function testBuild()
 	{
-		$nav = new NavBuilder();
-
+		$nav = new NavBuilder($this->request);
 		$menu = array(
 			'Home' => '/',
 			'About' => '/about',
@@ -23,9 +28,7 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 		$expected = '<li class="active"><a href="/">Home</a></li>';
 		$expected .= '<li><a href="/about">About</a></li>';
 		$expected .= '<li><a href="/service">Service</a></li>';
-
-		Request::shouldReceive('url')->once()->andReturn('/');
-
+		$this->request->shouldReceive('url')->times(3)->andReturn('/');
 		$this->assertEquals($expected, $nav->build($menu));
 
 		$menu = array(
@@ -36,22 +39,18 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 		$expected = '<li><a href="/">Home</a></li>';
 		$expected .= '<li><a href="/about">About</a></li>';
 		$expected .= '<li><a href="/service">Service</a></li>';
-
-		Request::shouldReceive('url')->once()->andReturn('/test');
-
+		$this->request->shouldReceive('url')->times(3)->andReturn('/test');
 		$this->assertEquals($expected, $nav->build($menu));
 	}
 
 	public function testBuildDropdown()
 	{
-		$nav = new NavBuilder();
-
+		$nav = new NavBuilder($this->request);
 		$menu = array(
 			'Home' => '/',
 			'About' => '/about',
 			'Service' => '/service'
 		);
-
 		$expected = '<li class="dropdown">';
 		$expected .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Test <b class="caret"></b></a>';
 		$expected .= '<ul class="dropdown-menu">';
@@ -59,9 +58,7 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 		$expected .= '<li><a href="/about">About</a></li>';
 		$expected .= '<li><a href="/service">Service</a></li>';
 		$expected .= '</ul></li>';
-
-		Request::shouldReceive('url')->once()->andReturn('/user/1');
-
+		$this->request->shouldReceive('url')->times(3)->andReturn('/user/1');
 		$this->assertEquals($expected, $nav->buildDropdown($menu, 'Dropdown Test'));
 
 		$menu = array(
@@ -70,7 +67,6 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 			'-divider-',
 			'Service' => '/service'
 		);
-
 		$expected = '<li class="dropdown active">';
 		$expected .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Test <b class="caret"></b></a>';
 		$expected .= '<ul class="dropdown-menu">';
@@ -79,16 +75,13 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 		$expected .= '<li class="divider"></li>';
 		$expected .= '<li><a href="/service">Service</a></li>';
 		$expected .= '</ul></li>';
-
-		Request::shouldReceive('url')->once()->andReturn('/');
-
+		$this->request->shouldReceive('url')->times(3)->andReturn('/');
 		$this->assertEquals($expected, $nav->buildDropdown($menu, 'Dropdown Test'));
 	}
 
 	public function testCompleteMenuBuild()
 	{
-		$nav = new NavBuilder();
-
+		$nav = new NavBuilder($this->request);
 		$menu = array(
 			'Home' => '/',
 			'About' => '/about',
@@ -113,7 +106,7 @@ class NavBuilderTest extends \PHPUnit_Framework_TestCase {
 
 		$expected .= '<li><a href="/service">Service</a></li>';
 
-		Request::shouldReceive('url')->once()->andReturn('/');
+		$this->request->shouldReceive('url')->times(5)->andReturn('/');
 
 		$this->assertEquals($expected, $nav->build($menu));
 	}
