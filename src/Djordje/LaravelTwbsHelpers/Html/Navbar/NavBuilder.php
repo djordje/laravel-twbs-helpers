@@ -1,8 +1,8 @@
 <?php namespace Djordje\LaravelTwbsHelpers\Html\Navbar;
 
-use Illuminate\Support\Facades\Request;
+use Djordje\LaravelTwbsHelpers\Html\BaseTwbsBuilder;
 
-class NavBuilder {
+class NavBuilder extends BaseTwbsBuilder {
 
 	/**
 	 * Convert array of `'title' => 'link'` keys to nav items
@@ -83,7 +83,7 @@ class NavBuilder {
 	 */
 	protected function createNavEntity($title, $link)
 	{
-		$active = ($link === Request::url());
+		$active = $this->isActiveLink($link);
 		$html = '';
 
 		if ($active)
