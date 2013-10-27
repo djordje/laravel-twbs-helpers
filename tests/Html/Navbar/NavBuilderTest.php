@@ -2,8 +2,14 @@
 
 use Djordje\LaravelTwbsHelpers\Html\Navbar\NavBuilder;
 use Illuminate\Support\Facades\Request;
+use Mockery;
 
 class NavBuilderTest extends \PHPUnit_Framework_TestCase {
+
+	public function tearDown()
+	{
+		Mockery::close();
+	}
 
 	public function testBuild()
 	{
