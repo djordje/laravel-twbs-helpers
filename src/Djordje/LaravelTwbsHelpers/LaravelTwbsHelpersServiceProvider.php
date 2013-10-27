@@ -1,5 +1,6 @@
 <?php namespace Djordje\LaravelTwbsHelpers;
 
+use Djordje\LaravelTwbsHelpers\Html\ListGroupBuilder;
 use Djordje\LaravelTwbsHelpers\Html\Navbar\NavBuilder;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,7 +32,11 @@ class LaravelTwbsHelpersServiceProvider extends ServiceProvider {
 	{
 		$this->app['twbs.nav'] = $this->app->share(function($app)
 		{
-			return new NavBuilder();
+			return new NavBuilder($app['request']);
+		});
+		$this->app['twbs.list-group'] = $this->app->share(function($app)
+		{
+			return new ListGroupBuilder($app['request']);
 		});
 	}
 
