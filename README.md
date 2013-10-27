@@ -1,5 +1,7 @@
 ## Laravel Twitter Bootstrap Helpers
 
+[![Build Status](https://travis-ci.org/djordje/laravel-twbs-helpers.png?branch=master)](https://travis-ci.org/djordje/laravel-twbs-helpers)
+
 This package aims to provide helpers (html builders) for complex Twitter Bootstrap 3 elements.
 
 For example build menu with properly classed active links...
