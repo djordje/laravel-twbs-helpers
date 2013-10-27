@@ -10,7 +10,8 @@ For example build menu with properly classed active links...
 
 Currently supported:
 
-* [Nav (build list of links for `ul.nav`)](https://github.com/djordje/laravel-twbs-helpers/blob/master/docs/NavbarNav.md)
+* __ListGroup__ (build `.list-group` wrapper with `.list-group-item` child elements) [docs](https://github.com/djordje/laravel-twbs-helpers/blob/master/docs/ListGroup.md)
+* __Nav__ (build list of links for `ul.nav`) [docs](https://github.com/djordje/laravel-twbs-helpers/blob/master/docs/NavbarNav.md)
 
 ##### Installation
 
@@ -33,6 +34,21 @@ Add service provider to your `app/config/app.php` file:
 'providers' => array(
     # ...
     'Djordje\LaravelTwbsHelpers\LaravelTwbsHelpersServiceProvider',
+),
+
+# ...
+
+```
+
+Optionally you can add mostly used facades to your application aliases:
+
+```php
+
+# ...
+
+'aliases' => array(
+    # ...
+    'TwbsNav' => 'Djordje\LaravelTwbsHelpers\Facades\TwbsNav'
 ),
 
 # ...
